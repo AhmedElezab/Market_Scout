@@ -24,7 +24,7 @@ site's terms, so both are recorded. Firecrawl cannot fetch Reddit, so Reddit is 
 |---|---|---|---|
 | Freelancer.com | Project pages allowed; `/projects/browse.php*`, `/jobs/?*`, `/find/*` disallowed | Bans "any robot, spider, scraper or other automated means", API included, without written permission | **`manual only`** (do not collect automatically, even through a tool) |
 | Guru | Most pages allowed; `/d/search/*` and `/api/` disallowed | Bans robots meant to "damage or interfere", and "intercept or expropriate any system, data" from the site. Ambiguous | **`manual only`** (conservative reading) |
-| PeoplePerHour | Job pages allowed; query strings disallowed except `?page=` | Two extraction passes (2026-11-21) found no scraping clause, only IP-assignment clauses. An LLM extraction, not a human read | `automated`, provisional: low volume, public job pages only, no query strings, 5 s delay. You should skim the terms once yourself |
+| PeoplePerHour | Job pages allowed; query strings disallowed except `?page=` | Two extraction passes (2026-11-21) found no scraping clause, only IP-assignment clauses. An LLM extraction, not a human read | **`skip`** (no relevant data). Terms looked permissive, but a 5-query probe found no power electronics postings; see below |
 | Electronics Stack Exchange | `User-agent: *` `Disallow: /`, `Content-signal: search=no, ai-train=no` | Not read | **`manual only`** for page reading. Official API is a separate route that is not yet reviewed |
 | EEVblog forum | `Allow: /`, `Crawl-delay: 10`; some AI bots blocked | Not read | `pending verification`. Low value: topic interest, not paid demand |
 | Power Electronics News | Generic allowed; `anthropic-ai`, `GPTBot`, `CCBot` and others blocked | Not read | **`skip`**: industry news, not demand, and it signals opposition to AI use |
@@ -38,6 +38,12 @@ site's terms, so both are recorded. Firecrawl cannot fetch Reddit, so Reddit is 
 Early yield probe (Freelancer search index, 2 results only, not a sample): a "LLC Resonant Converter
 Design and Analysis" listing and several SMPS design listings exist, so design-only items do appear. But
 the only platform where I found them is the one whose terms ban automated access.
+
+### PeoplePerHour yield probe (2026-11-21)
+5 targeted searches (LLC/resonant, SMPS design, magnetics/PLECS/LTspice, EV charger/inverter/solar, PFC/GaN/SiC)
+restricted to peopleperhour.com: 2 returned no results; 3 returned only unrelated freelancer profiles and job
+categories (translation, photography, VAT, SEO). **0 relevant postings.** Caveat: this checks the search
+index, not every live listing, so a few postings could exist unseen. Still enough to deprioritize it.
 
 ### SAM.gov yield probe (2026-11-21)
 4 keyword queries ("power electronics design", "DC-DC converter design", "resonant converter", "power
