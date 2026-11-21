@@ -45,6 +45,9 @@ reading; use pasted or exported data you provide), `skip` (not useful or not per
 - Forums and Q&A (rows 12-15) measure topic interest, which is not the same as paid demand. Reports
   must keep those two signals separate.
 
+## Owner decisions 2026-11-21
+Source list approved; `pending verification` accepted as a decision value. Network access requested via a new `market-scout` environment, but the request was rejected by the environments service, so hosts remain blocked.
+
 ## Next steps (gate before Phase 2)
 
 1. You confirm which rows you want investigated.

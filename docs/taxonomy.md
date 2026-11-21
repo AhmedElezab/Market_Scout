@@ -56,7 +56,8 @@ manufacturing support, DFM, test fixture, wire harness, enclosure, mechanical de
 | Value | Keywords |
 |---|---|
 | `LLC` | LLC, LLC resonant, half-bridge resonant |
-| `SRC` | series resonant converter, SRC, CLLC, LCC, series-parallel resonant (owner to confirm CLLC/LCC split) |
+| `SRC` | series resonant converter, SRC, LCC, series-parallel resonant |
+| `CLLC` | CLLC, bidirectional resonant (now its own value, approved) |
 | generic resonant | bare "resonant converter" with no type: `topology = LLC` is NOT assumed; use `other` with low confidence |
 | `DAB` | dual active bridge, DAB, phase-shift bidirectional, isolated bidirectional DC/DC |
 | `PSFB` | phase-shifted full bridge, PSFB, ZVS full bridge |
@@ -65,15 +66,16 @@ manufacturing support, DFM, test fixture, wire harness, enclosure, mechanical de
 | `buck/boost` | buck, buck-boost, non-isolated DC/DC, multiphase buck, point-of-load (bare "boost" counts only without "PFC") |
 | `totem-pole PFC` | totem pole, totem-pole PFC, bridgeless PFC |
 | `interleaved PFC` | interleaved PFC, interleaved boost |
-| `PFC` (generic) | PFC, boost PFC, CCM PFC, CrM PFC, power factor correction (proposed new value; needs owner approval, see schema) |
-| `3-phase inverter` | three-phase inverter, 3-phase inverter, motor drive inverter, traction inverter, T-type, NPC |
+| `PFC` (generic) | PFC, boost PFC, CCM PFC, CrM PFC, power factor correction (approved) |
+| `motor-drive inverter` | motor drive inverter, traction inverter, servo drive, VFD (approved split) |
+| `grid-side inverter` | three-phase grid inverter, T-type, NPC, active front end |
 | `grid-tied PV inverter` | grid-tied inverter, PV inverter, string inverter, microinverter, grid-forming |
 | `MPPT` | MPPT, maximum power point tracking, solar charge controller |
 | `battery charger` | battery charger, OBC, onboard charger, fast charger (EV charging is an application, not a topology) |
 | `other` | none of the above |
 
 A posting may name several topologies; store the primary one in `topology` and note the rest in the
-excerpt. Generic "PFC" maps to the proposed `PFC` value; until approved, store `other` with a note.
+excerpt. Generic "PFC" maps to `PFC`.
 
 ## 3. Power class (from stated power; `null` if unstated; never infer from topology)
 
@@ -131,8 +133,6 @@ transformers, PFC stages, loop compensation (Type II/III), WBG devices (SiC, GaN
 classification. Scoring (Phase 3) will map topology and deliverable values onto this list; weights
 live in `config.yaml`.
 
-## Open questions for the owner
-- Add a generic `PFC` topology value? Add `topology_confidence` and `topology_notes` fields (schema change)?
-- Should CLLC be its own topology value instead of folded into `SRC`?
-- Should `3-phase inverter` split motor-drive from grid-side? (Different buyers.)
-- Is battery-management / BMS design in scope, or out of your expertise?
+## Decisions (2026-11-21)
+CLLC is its own topology. Inverters split into motor-drive and grid-side. BMS is **out of scope**:
+postings about BMS design are labeled `other` and excluded from fit scoring.

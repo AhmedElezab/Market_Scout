@@ -24,7 +24,10 @@ are under 25 words. No contact details. Client names only if publicly shown, and
 | `proposals_count` | integer or null | no | Competition signal. |
 | `design_scope_label` | `design_only` \| `design_plus_impl` \| `impl_only` \| `unclear` | yes | See `docs/taxonomy.md`. |
 | `design_scope_note` | string or null | no | Required when label is `design_plus_impl`: which part is design. |
-| `topology` | enum or null | no | Values from taxonomy section 2. |
+| `topology` | enum or null | no | Values from taxonomy section 2 (now includes `CLLC`, `PFC`, `motor-drive inverter`, `grid-side inverter`). |
+| `topology_confidence` | number 0-1 or null | no | Confidence in `topology`. |
+| `topology_notes` | string or null | no | Secondary topologies, power-range notes. Never put these in `excerpt`. |
+| `content_hash` | string | yes | sha256 of title + excerpt. Dedupe key #2 with `id`. |
 | `power_class` | enum or null | no | `<100W`, `100W-1kW`, `1-10kW`, `10-100kW`, `>100kW`. |
 | `application` | enum or null | no | Taxonomy section 4. |
 | `deliverables` | list of enum | yes (may be empty) | Taxonomy section 5. |
@@ -32,18 +35,14 @@ are under 25 words. No contact details. Client names only if publicly shown, and
 | `label_method` | `rules` \| `llm_labeler` \| `llm_escalation` \| `manual` | yes | Which method produced the labels. |
 | `confidence` | number 0-1 | yes | Confidence in `design_scope_label`. Below `config.yaml` threshold -> escalate. |
 
-## Proposed additions (need your approval; not yet part of the schema)
-
-These support the demand signals in `CLAUDE.md` and the reproducibility rules. I will not use them
-until you approve.
+## Remaining proposed additions (not yet approved)
 
 | Field | Type | Why |
 |---|---|---|
-| `content_hash` | string | sha256 of title + excerpt. Dedupe key #2 for reposted items with new URLs. |
-| `client_public_name` | string or null | Public company name only, if shown. Needed for the "repeat clients" demand signal. |
-| `remote_ok` | boolean or null | Fit score input ("remote-friendly"). |
-| `labeler_model` | string or null | Model ID that labeled the record (for the cost log and accuracy comparison). |
-| `schema_version` | string | Lets old JSONL be migrated. |
+| `client_public_name` | string or null | Public company name only, for the repeat-clients signal. |
+| `remote_ok` | boolean or null | Fit score input. |
+| `labeler_model` | string or null | Model ID that labeled the record. |
+| `schema_version` | string | Migration support. |
 
 ## Raw items
 
@@ -61,8 +60,9 @@ until you approve.
  "label_method":"rules","confidence":0.4}
 ```
 
-## Open schema issues from review (need your decision)
-1. `content_hash` is required by `CLAUDE.md` (dedupe by URL and content hash); promote it from proposed to required?
-2. Define URL normalization for `id` (lowercase host, strip tracking params and fragments).
-3. Add `topology_notes` / `topology_confidence` so secondary topologies and range notes do not go in the verbatim `excerpt`.
-4. Add a generic `PFC` topology value.
+## URL normalization (for `id`)
+Lowercase scheme and host, drop `www.`, strip fragments and tracking params (`utm_*`, `ref`, `fbclid`,
+`gclid`), remove trailing slash, keep other query params in sorted order.
+
+## Approved 2026-11-21
+`content_hash` required; `topology_confidence` and `topology_notes` added; `PFC` topology added.
