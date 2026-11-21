@@ -24,20 +24,28 @@ site's terms, so both are recorded. Firecrawl cannot fetch Reddit, so Reddit is 
 |---|---|---|---|
 | Freelancer.com | Project pages allowed; `/projects/browse.php*`, `/jobs/?*`, `/find/*` disallowed | Bans "any robot, spider, scraper or other automated means", API included, without written permission | **`manual only`** (do not collect automatically, even through a tool) |
 | Guru | Most pages allowed; `/d/search/*` and `/api/` disallowed | Bans robots meant to "damage or interfere", and "intercept or expropriate any system, data" from the site. Ambiguous | **`manual only`** (conservative reading) |
-| PeoplePerHour | Job pages allowed; query strings disallowed except `?page=` | Terms page read; the extraction answered only "No" to an automated-access restriction. Thin evidence, not a full read | `pending verification` (needs a full read of the terms) |
+| PeoplePerHour | Job pages allowed; query strings disallowed except `?page=` | Two extraction passes (2026-11-21) found no scraping clause, only IP-assignment clauses. An LLM extraction, not a human read | `automated`, provisional: low volume, public job pages only, no query strings, 5 s delay. You should skim the terms once yourself |
 | Electronics Stack Exchange | `User-agent: *` `Disallow: /`, `Content-signal: search=no, ai-train=no` | Not read | **`manual only`** for page reading. Official API is a separate route that is not yet reviewed |
 | EEVblog forum | `Allow: /`, `Crawl-delay: 10`; some AI bots blocked | Not read | `pending verification`. Low value: topic interest, not paid demand |
 | Power Electronics News | Generic allowed; `anthropic-ai`, `GPTBot`, `CCBot` and others blocked | Not read | **`skip`**: industry news, not demand, and it signals opposition to AI use |
 | Mitacs | `Disallow: /*?` only | Not read | `pending verification` |
 | CanadaBuys | `User-agent: *` `Disallow: /` (only Googlebot and bingbot allowed) | Not read | **`manual only`**. Check its open-data feeds separately |
 | MERX | General pages allowed; names ClaudeBot, GPTBot and other AI scrapers as blocked | Not read | **`manual only`** (explicit anti-AI-scraper stance) |
-| TED (EU tenders) | Generally allowed; dynamic search results disallowed; bulk XML download page allowed | Not read | `pending verification`. Prefer the official bulk download or API |
-| SAM.gov | Standard Drupal robots; data lives in `api.sam.gov` | Not read; API needs a key and terms | `pending verification` (API route only) |
+| TED (EU tenders) | Generally allowed; dynamic search results disallowed; bulk XML download page allowed | Legal notice: notices "can be freely reused, for commercial or non-commercial purposes" with credit | `automated` via official API or bulk download only. No Firecrawl provider exists, so a collector must be built (Phase 3) |
+| SAM.gov | Standard Drupal robots; data lives in `api.sam.gov` | Public federal notices; accessed through an Alexandria provider (typed search) | `automated`, but **low value**: see yield result below |
 | Reddit | Could not be read | Not read | `pending verification` (API terms, commercial use) |
 
 Early yield probe (Freelancer search index, 2 results only, not a sample): a "LLC Resonant Converter
 Design and Analysis" listing and several SMPS design listings exist, so design-only items do appear. But
 the only platform where I found them is the one whose terms ban automated access.
+
+### SAM.gov yield probe (2026-11-21)
+4 keyword queries ("power electronics design", "DC-DC converter design", "resonant converter", "power
+converter trade study") returned 66 records (the broad query matched 1,933 in total). By title, almost all are
+hardware purchases or unrelated (MRI scanners, golf carts, radar repair, supplies); the matches look like
+keyword noise. At most 2 or 3 are plausibly design-related (for example a NASA spacecraft electrical power
+systems pre-RFI, 2026-11-11, and a DOE microelectronics RFI). This is a title-level read by me, not a
+labeled sample, so no share is claimed. **SAM.gov is not a usable source of design-only freelance demand.**
 
 ## Table
 
