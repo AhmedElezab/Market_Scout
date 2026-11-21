@@ -1,0 +1,23 @@
+[project]
+name = "pe-market-scout"
+version = "0.1.0"
+description = "Demand and fit scouting for design-only power electronics freelance work"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2", "pyyaml>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

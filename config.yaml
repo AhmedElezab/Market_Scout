@@ -1,0 +1,29 @@
+# All tunables live here. Secrets go in .env, never here.
+models:                      # runtime models for the finished tool
+  labeler: claude-haiku-5-5
+  escalation: claude-sonnet-5-5
+  llm_fallback_enabled: false
+
+classification:
+  min_confidence: 0.70       # below this, escalate (labeler -> builder/Sonnet -> architect)
+  min_sample_for_trend: 30   # never call a trend from fewer relevant records
+
+collection:
+  rate_limit_seconds: 5
+  cache_dir: data/raw
+  respect_robots: true
+
+sources: {}                  # filled from docs/sources.md once approved (automated only)
+
+weights:                     # placeholder; architect sets real values in Phase 3
+  demand:
+    frequency: 0.35
+    repeat_clients: 0.10
+    budget: 0.20
+    low_competition: 0.15
+    recency: 0.20
+  fit:
+    expertise_overlap: 0.40
+    design_only_purity: 0.30
+    remote_friendly: 0.10
+    budget_vs_effort: 0.20
